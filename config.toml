@@ -24,6 +24,8 @@ highlight_theme = "boron"
 
 [extra]
 author = "Harry Randazzo"
+favicon = "/favicon.ico"
+favicon_mimetype = "image/png"
 accent_color = "orange"
 
 background_color = "orange"
