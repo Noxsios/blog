@@ -1,6 +1,15 @@
 # The URL the site will be built for
 base_url = "https://blog.razzle.cloud"
 
+title = "Razzle's Blog"
+
+# blog theme, my fork
+theme = "terminimal"
+
+taxonomies = [
+    {name = "tags"},
+]
+
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
 
@@ -11,6 +20,28 @@ build_search_index = false
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
+highlight_theme = "boron"
 
 [extra]
-# Put all your custom variables here
+author = "Harry Randazzo"
+accent_color = "orange"
+
+background_color = "orange"
+
+logo_text = "blog.razzle.cloud"
+
+menu_items = [
+    # each of these is optional, name and url are required
+    # $BASE_URL is going to be substituted by base_url from configuration
+    {name = "blog", url = "$BASE_URL"},
+
+    # tags should only be enabled if you have "tags" taxonomy
+    # see documentation below for more details
+    {name = "tags", url = "$BASE_URL/tags"},
+    {name = "about me", url = "$BASE_URL/about"},
+
+    # set newtab to true to make the link open in new tab
+    {name = "github", url = "https://github.com/Noxsios", newtab = true},
+]
+
+post_view_navigation_prompt = "Read more"
