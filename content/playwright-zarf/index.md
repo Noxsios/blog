@@ -1,0 +1,153 @@
++++
+
+title = "Playwright Testing Zarf"
+date = 2022-09-20
+
+[taxonomies]
+tags = ["zarf","js","tests"]
+
++++
+
+
+This post will explore my journey learning more about Playwright, an up-and-coming end-to-end testing framework that offers parallelism, write-once test-all browsers functionality, and other powerful features while still remaining as simple as possible.
+
+<!-- more -->
+
+> tldr;
+>
+> [playwright](https://playwright.dev) is a very powerful E2E testing framework by Microsoft, but it does come with a slight learning curve, even if migrating from Cypress or Selenium
+> 
+
+## Overview of zarf-ui
+
+[`zarf`](https://zarf.dev/) is a CLI tool written in Go for airgapping Kubernetes deployments.  Facing a potential use case where a user may be very unfamiliar with deploying K8s, given miminal training, and a requirement that the job must be completed; a GUI for this powerful tool needed to be created.
+
+The frontend/UI is written in [SvelteKit](https://kit.svelte.dev/) with components derived from [Material](https://material.io), the backend is a restful Go API that exposes (_nearly_) the same functionality as the CLI tool.
+
+Frontend: `http://localhost:5137` 
+
+Backend: `http://127.0.0.1:3333`
+
+> the frontend build tool [`vite`](https://vitejs.dev/) prefers `localhost` to `127.0.0.1`
+
+Using `vite`, the backend is proxied to the frontend with the below:
+
+```js
+// vite.config.ts
+
+const backendAPI = {
+  target: 'http://127.0.0.1:3333',
+  changeOrigin: true,
+  secure: false,
+  ws: true,
+}
+
+const config: UserConfig = {
+  ...
+  server: {
+    proxy: {
+      '/api': backendAPI,
+    },
+  },
+  ...
+}
+```
+
+This allows the frontend to make api calls to `localhost:5173/api/some_endpoint`, and the true backend server respond.
+
+## Adding playwright to zarf
+
+I have previous experience using Playwright in another project, and I was able to get the initial scaffolding down using:
+
+```bash
+npm init playwright@latest
+```
+
+### Moving tests dir
+
+Due to the structure of `zarf`, the tests were moved from `tests` to `src/test/ui`.  And the relevant line in the `playwright.config.ts` changed to:
+
+```ts
+const config: PlaywrightTestConfig = {
+  testDir: './src/test/ui',
+  ...
+}
+```
+
+### Pairing with frontend ui + backend api flow
+
+Staring the frontend + backend can be accomplished w/ `npm run dev`.
+
+Under the hood, this starts the `vite` dev server at the same time as our backend API.
+
+```terminal
+❯ npm run dev
+
+> zarf-ui@0.0.1 dev
+> API_DEV_PORT=5173 API_PORT=3333 API_TOKEN=insecure concurrently --names "ui,api" -c "gray.bold,yellow" "vite dev" "nodemon -e go -x 'go run main.go dev ui -l=trace || exit 1'"
+
+[api] [nodemon] 2.0.19
+[api] [nodemon] to restart at any time, enter `rs`
+[api] [nodemon] watching path(s): src/**/*
+[api] [nodemon] watching extensions: go
+[api] [nodemon] starting `go run main.go dev ui -l=trace || exit 1`
+[ui]
+[ui]   VITE v3.1.0  ready in 513 ms
+[ui]
+[ui]   ➜  Local:   http://localhost:5173/
+[ui]   ➜  Network: use --host to expose
+...
+  DEBUG   api.LaunchAPIServer()
+[api] └ (/Users/razzle/dev/zarf/src/internal/message/message.go:103)
+[api]   •  Zarf UI connection: http://127.0.0.1:5173/auth?token=insecure
+```
+
+> Note the above Zarf UI connection URL.  In production builds, the token value will be a unique string created by the backend at runtime, this will provide some basic API auth/security.
+> 
+> Using the UI is only possible after going to this auth endpoint, as the token is set in `window.sessionStorage` (a hack for now, but its just to get things working)
+> 
+
+With this knowledge in mind, utilizing the [webServer](https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests) config option in Playwright, we can wire this call directly into our test runner.
+
+```ts
+const config: PlaywrightTestConfig = {
+  ...
+  webServer: {
+    command: 'npm run dev',
+    port: 3333,
+    reuseExistingServer: true,
+    timeout: 120 * 1000
+  },
+  use: {
+    baseURL: 'http://localhost:5173'
+  }
+  ...
+}
+```
+
+Now when we run our tests w/ `npx playwright test`, our dev frontend+backend servers are created beforehand, and destroyed after.
+
+> By specifying port `3333` (the backend) as the webServer port, we can have `playwright` wait for that port to be live before it runs the tests. (the frontend builds much faster than the backend compiles)
+
+## Writing the first test
+
+For the first test, we will check that we are able to navigate to the homepage, and the page title is as expected.
+
+```ts
+// src/test/ui/home.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('homepage', () => {
+  test('has `Zarf UI` in title', async ({ page }) => {
+    // navigate to UI root / homepage
+    await page.goto('/');
+
+    // Expect a title "to contain" a substring.
+    await expect(page).toHaveTitle(/Zarf UI/);
+    // ^ some playwright asssertions allow you 
+    // to have RegEx as the expected output
+  });
+});
+```
+
+Playwright is asynchronous by nature, so get used to `await`'ing a lot of steps.
