@@ -190,4 +190,3 @@ Get Windows like window pinning/snapping + a ton of useful keyboard shortcuts.
 ---
 
 If you don't see an explanation for an item in my Brewfile that you would like to see, let me know and I will add it!
-

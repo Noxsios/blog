@@ -19,7 +19,7 @@ When in doubt, `man <command>`.
 ## `ss`
 
 > `ss` - another utility to investigate sockets (replacement for `netstat`)
-> 
+>
 > <https://man7.org/linux/man-pages/man8/ss.8.html>
 
 ```fish
