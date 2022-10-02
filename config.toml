@@ -40,7 +40,7 @@ menu_items = [
     # tags should only be enabled if you have "tags" taxonomy
     # see documentation below for more details
     {name = "tags", url = "$BASE_URL/tags"},
-    {name = "about me", url = "$BASE_URL/about"},
+    {name = "about me", url = "https://razzle.cloud", newtab = true},
 
     # set newtab to true to make the link open in new tab
     {name = "github", url = "https://github.com/Noxsios", newtab = true},
