@@ -34,6 +34,8 @@ tags = ${JSON.stringify(tags, null, 0)}
 const title = await question(c.blue("> Title: "));
 const tags = await question(c.blue("> Tags: "));
 
+await $`git checkout -b ${today}`;
+
 const boilerPlate = newPostTmpl(title, tags.split(","));
 
 await $`echo ${boilerPlate} >> ./content/${today}.md`;
