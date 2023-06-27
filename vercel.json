@@ -1,5 +1,0 @@
-{
-  "buildCommand": "zola build",
-  "installCommand": "./scripts/install.sh",
-  "outputDirectory": "public"
-}
