@@ -6,9 +6,7 @@ title = "Razzle's Blog"
 # blog theme, my fork
 theme = "terminimal"
 
-taxonomies = [
-    {name = "tags"},
-]
+taxonomies = [{ name = "tags" }]
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -45,15 +43,15 @@ logo_text = "blog.razzle.cloud"
 menu_items = [
     # each of these is optional, name and url are required
     # $BASE_URL is going to be substituted by base_url from configuration
-    {name = "blog", url = "$BASE_URL"},
+    { name = "blog", url = "$BASE_URL" },
 
     # tags should only be enabled if you have "tags" taxonomy
     # see documentation below for more details
-    {name = "tags", url = "$BASE_URL/tags"},
-    {name = "about me", url = "https://razzle.cloud", newtab = true},
+    { name = "tags", url = "$BASE_URL/tags" },
+    { name = "about me", url = "https://razzle.cloud", newtab = true },
 
     # set newtab to true to make the link open in new tab
-    {name = "github", url = "https://github.com/Noxsios", newtab = true},
+    { name = "github", url = "https://github.com/Noxsios", newtab = true },
 ]
 
 enable_post_view_navigation = true
@@ -68,4 +66,4 @@ post_view_navigation_prompt = "Read more"
 #                 or if page_title is not defined or empty, fall back to `main_title`
 #
 # Note that the main (index) page only has the main title.
-page_titles = "combined"
+page_titles = "page_only"
