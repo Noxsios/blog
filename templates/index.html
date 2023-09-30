@@ -1,0 +1,44 @@
+{% extends "terminimal/templates/index.html" %}
+
+{% block extra_head %}
+{% if page.extra.meta %}
+         {% for data in page.extra.meta %}
+             <meta 
+                 {% for key, value in data%}
+                     {% if key == "property" and value == "og:title"%}
+                         {% set_global page_has_og_title = true -%}
+                     {% endif %}
+                     {% if key == "property" and value == "og:description"%}
+                         {% set_global page_has_og_description = true -%}
+                     {% endif %}
+                     {% if key == "name" and value == "description"%}
+                         {% set_global page_has_description = true -%}
+                     {% endif %}
+                     {{ key }}="{{ value }}"
+                {% endfor %}
+            />
+        {% endfor %}
+    {% endif %}
+
+
+    {% if not page_has_og_title %}
+        <meta property="og:title" content="{% if page.title -%}{{ page.title }}{% elif config.title -%}{{ config.title }}{% else -%}Post{% endif -%}" />
+    {% endif %}
+
+     {% if not page_has_og_description %}
+         {% if page.description %}
+             <meta property="og:description" content="{{ page.description }}" />
+         {% elif config.description %}
+             <meta property="og:description" content="{{ config.description }}" />
+         {% endif %}
+     {% endif %}
+
+     {% if not page_has_description %}
+         {% if page.description %}
+             <meta name="description" content="{{ page.description }}" />
+         {% elif config.description %}
+             <meta name="description" content="{{ config.description }}" />
+         {% endif %}
+    {% endif %}
+
+{% endblock %}
