@@ -1,3 +1,4 @@
 [submodule "themes/terminimal"]
-	path = themes/terminimal
-	url = https://github.com/Noxsios/zola-theme-terminimal.git
+path = themes/terminimal
+url = https://github.com/Noxsios/zola-theme-terminimal.git
+branch = master
