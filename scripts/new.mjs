@@ -21,9 +21,14 @@ draft = true
 
 [taxonomies]
 tags = ${JSON.stringify(tags, null, 0)}
+
+[extra]
+meta = [
+    {property = "og:image", content = "https://og.razzle.cloud/og?title=${encodeURI(title)}"},
+]
 +++
 
-> tldr;
+> **TL;DR**
 
 <!-- more -->
 
