@@ -1,4 +1,7 @@
 {
   "trailingSlash": true,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "env": {
+    "ZOLA_VERSION": "0.21.0"
+  }
 }
