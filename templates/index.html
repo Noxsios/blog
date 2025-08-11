@@ -20,10 +20,13 @@
         {% endfor %}
     {% endif %}
 
-
-    {% if not page_has_og_title %}
+    {%- if not page_has_og_title %}
         <meta property="og:title" content="{% if page.title -%}{{ page.title }}{% elif config.title -%}{{ config.title }}{% else -%}Post{% endif -%}" />
-    {% endif %}
+    {% endif -%}
+
+{%- if config.extra.author %}
+<meta property="author" content="{{ config.extra.author }}" />
+{% endif -%}
 
      {% if not page_has_og_description %}
          {% if page.description %}
