@@ -4,5 +4,5 @@
   "outputDirectory": "public",
   "framework": null,
   "installCommand": "curl -fsSL https://api.github.com/repos/getzola/zola/releases/latest | grep -oP '\"browser_download_url\":\\s*\"\\K[^\"]*linux-musl\\.tar\\.gz' | head -n1 | xargs curl -fsSL | tar -xz",
-  "buildCommand": "./zola build"
+  "buildCommand": "DRAFTS=$([ \"$VERCEL_ENV\" != \"production\" ] && echo true || echo false) && ./zola build --base-url \"https://$VERCEL_URL\" --drafts \"$DRAFTS\" --minify"
 }
