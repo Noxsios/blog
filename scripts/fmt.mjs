@@ -15,7 +15,7 @@ for (const md of posts) {
   const has_tabs = txt.includes("\t");
   if (has_tabs) {
     echo`> Removing tabs from ${md.replace("content/", "")}`;
-    txt = txt.replaceAll("\t", "  ");
+    txt = txt.replaceAll("\t", "    ");
   }
   fs.writeFileSync(fp, txt);
 }
