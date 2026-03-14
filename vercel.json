@@ -4,5 +4,5 @@
   "outputDirectory": "public",
   "framework": null,
   "installCommand": "curl -fsSL https://api.github.com/repos/getzola/zola/releases/latest | grep -oP '\"browser_download_url\":\\s*\"\\K[^\"]*linux-musl\\.tar\\.gz' | head -n1 | xargs curl -fsSL | tar -xz",
-  "buildCommand": "DRAFTS=$([ \"$VERCEL_ENV\" != \"production\" ] && echo \"--drafts\" || true) && ./zola build --base-url \"$([ \"$VERCEL_ENV\" = \"production\" ] && echo \"https://razzle.cloud\" || echo \"https://$VERCEL_URL\")\" $DRAFTS --minify"
+  "buildCommand": "DRAFTS=$([ \"$VERCEL_ENV\" != \"production\" ] && echo \"--drafts\" || true) && ./zola build --base-url \"$([ \"$VERCEL_ENV\" = \"production\" ] && echo \"https://blog.razzle.cloud\" || echo \"https://$VERCEL_URL\")\" $DRAFTS --minify"
 }
