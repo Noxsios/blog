@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Install Zola
+        run: curl -fsSL https://api.github.com/repos/getzola/zola/releases/latest | grep -oP '"browser_download_url":\s*"\K[^"]*linux-musl\.tar\.gz' | head -n1 | xargs curl -fsSL | tar -xz
+
+      - name: Zola Check
+        run: make check ZOLA=./zola

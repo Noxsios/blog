@@ -1,9 +1,14 @@
 .DEFAULT_GOAL = dev
 
+ZOLA ?= zola
+
 serve:
-	zola serve
+	$(ZOLA) serve
 
 dev:
-	zola serve --drafts
+	$(ZOLA) serve --drafts
 
-.PHONY: serve dev
+check:
+	$(ZOLA) check
+
+.PHONY: serve dev check
