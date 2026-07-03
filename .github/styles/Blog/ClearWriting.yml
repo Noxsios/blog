@@ -1,0 +1,12 @@
+extends: existence
+message: "Try to avoid using '%s' as it can make instructions feel dismissive. Be direct instead."
+level: suggestion
+ignorecase: true
+tokens:
+  - simply
+  - just
+  - obviously
+  - basically
+  - easy
+  - self-explanatory
+  - simple

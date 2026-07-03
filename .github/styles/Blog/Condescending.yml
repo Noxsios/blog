@@ -1,0 +1,12 @@
+extends: existence
+message: "Avoid using '%s' as it can sound patronizing or condescending to the reader."
+level: warning
+ignorecase: true
+tokens:
+  - 'of course'
+  - 'clearly'
+  - 'as you should know'
+  - 'anyone can see'
+  - 'it''s easy to see'
+  - 'it should be obvious'
+  - 'obviously'

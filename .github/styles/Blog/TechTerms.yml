@@ -1,0 +1,16 @@
+extends: substitution
+message: "Use '%s' instead of '%s'"
+level: warning
+ignorecase: true
+swap:
+  github: GitHub
+  javascript: JavaScript
+  typescript: TypeScript
+  vscode: VS Code
+  docker: Docker
+  kubernetes: Kubernetes
+  yaml: YAML
+  json: JSON
+  ipad: iPad
+  iphone: iPhone
+  macos: macOS
