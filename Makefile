@@ -1,9 +1,16 @@
 .DEFAULT_GOAL = dev
 
+ZOLA ?= zola
+VALE ?= vale
+
 serve:
-	zola serve
+	$(ZOLA) serve
 
 dev:
-	zola serve --drafts
+	$(ZOLA) serve --drafts
 
-.PHONY: serve dev
+check:
+	$(ZOLA) check --skip-external-links # TODO: find a good method to still use this
+	$(VALE) content
+
+.PHONY: serve dev check

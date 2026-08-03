@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@sha256:3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive
+
+      - name: Install Zola
+        run: curl -fsSL https://api.github.com/repos/getzola/zola/releases/latest | grep -oP '"browser_download_url":\s*"\K[^"]*linux-musl\.tar\.gz' | head -n1 | xargs curl -fsSL | tar -xz
+
+      - name: Install Vale
+        uses: vale-cli/vale-action@sha256:85f9f7f2c5f449ac0ae5b66662961bae3f77ca6a # v2.1.2
+
+      - name: Zola Check
+        run: make check ZOLA=./zola

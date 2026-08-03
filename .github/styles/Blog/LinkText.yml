@@ -1,0 +1,10 @@
+extends: existence
+message: "Avoid generic link text like '%s'. Use descriptive text instead."
+level: warning
+nonword: true
+tokens:
+  - '\[click here\]'
+  - '\[here\]'
+  - '\[read more\]'
+  - '\[link\]'
+  - '\[website\]'
