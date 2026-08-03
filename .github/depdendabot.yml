@@ -1,0 +1,43 @@
+# .github/dependabot.yml
+
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+
+    # Avoid PR spam
+    open-pull-requests-limit: 5
+
+    # Keep PRs rebased automatically
+    rebase-strategy: "auto"
+
+    # Wait a few days after releases before opening PRs
+    cooldown:
+      default-days: 3
+
+    # Group all Action updates into a single PR
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+    # Optional: ignore major version bumps
+    # ignore:
+    #   - dependency-name: "*"
+    #     update-types:
+    #       - "version-update:semver-major"
